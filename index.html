@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Possessive Adjectives &amp; Pronouns: Drag &amp; Drop (B1)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:        #111111;
+    --ink-soft:   #3A3A3A;
+    --gray:       #6E6E6E;
+    --gray-soft:  #E4E4E4;
+    --white:      #FFFFFF;
+    --r-lg: 26px;
+    --r-md: 16px;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; }
+  }
+
+  html,body{ height:100%; }
+
+  body{
+    font-family:'Inter', sans-serif;
+    background:var(--white);
+    color:var(--ink);
+    min-height:100vh;
+    padding:36px 18px;
+    position:relative;
+    overflow-x:hidden;
+  }
+
+  .bg-blob{ position:fixed; border-radius:50%; filter:blur(60px); z-index:0; opacity:0.6; }
+  .bg-blob.b1{ width:360px; height:360px; background:var(--gray-soft); top:-140px; right:-120px; }
+  .bg-blob.b2{ width:320px; height:320px; background:var(--gray-soft); bottom:-140px; left:-120px; }
+
+  .stage{ max-width:620px; margin:0 auto; position:relative; z-index:1; }
+
+  .header-row{ display:flex; align-items:center; gap:10px; margin-bottom:26px; }
+  .m1-badge{
+    width:44px; height:44px; border-radius:12px;
+    background:var(--ink); color:var(--white);
+    border:2.5px solid var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Poppins',sans-serif; font-weight:800; font-size:15px;
+    box-shadow:0 6px 12px -4px rgba(17,17,17,0.35);
+  }
+  .m1-label{ font-family:'Poppins',sans-serif; font-weight:800; font-size:16px; color:var(--ink); }
+  .m1-label span{ color:var(--gray); }
+
+  .meta-row{ display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; gap:10px; flex-wrap:wrap; }
+  .q-count{ font-family:'Inter',sans-serif; font-weight:700; font-size:13px; letter-spacing:0.04em; color:var(--ink); text-transform:uppercase; }
+  .dots{ display:flex; gap:5px; flex-wrap:wrap; max-width:260px; }
+  .dot{ width:9px; height:9px; border-radius:50%; border:2px solid var(--gray-soft); background:transparent; transition:background .25s ease, border-color .25s ease; }
+  .dot.current{ background:var(--ink); border-color:var(--ink); }
+  .dot.done{ background:var(--ink-soft); border-color:var(--ink-soft); }
+
+  .score-badge{
+    font-family:'Inter',sans-serif; font-weight:800; font-size:13px;
+    color:var(--ink); background:var(--white);
+    border:2.5px solid var(--ink);
+    padding:8px 16px; border-radius:999px;
+    white-space:nowrap;
+  }
+
+  .screen{ display:none; }
+  .screen.active{ display:block; animation:fadeUp .45s ease both; }
+  @keyframes fadeUp{ from{ opacity:0; transform:translateY(12px); } to{ opacity:1; transform:translateY(0); } }
+
+  .welcome{ text-align:center; padding:36px 18px 10px; }
+
+  .eyebrow-pill{
+    display:inline-flex; align-items:center; gap:7px;
+    background:var(--ink); color:var(--white);
+    font-family:'Inter',sans-serif; font-weight:700; font-size:12px;
+    letter-spacing:0.1em; text-transform:uppercase;
+    padding:9px 18px; border-radius:999px;
+    margin-bottom:26px;
+  }
+
+  h1.title{
+    position:relative; display:inline-block;
+    font-family:'Poppins',sans-serif; font-weight:900;
+    font-size:clamp(26px,6.6vw,44px);
+    text-transform:uppercase; color:var(--ink);
+    letter-spacing:-0.01em; line-height:1.08;
+    margin-bottom:22px;
+  }
+  h1.title::after{ content:""; position:absolute; left:2%; right:2%; bottom:-8px; height:15px; background:var(--gray-soft); border-radius:8px; z-index:-1; }
+
+  p.lead{ font-size:17px; font-weight:700; color:var(--ink); margin-bottom:6px; }
+  p.sub-lead{ font-size:14px; color:var(--gray); margin-bottom:34px; }
+
+  .preview-row{ display:flex; gap:9px; justify-content:center; flex-wrap:wrap; margin-bottom:32px; }
+  .chip-preview{
+    position:relative;
+    font-family:'Inter',sans-serif; font-weight:700; font-size:13px;
+    background:var(--white); color:var(--ink);
+    border:2.5px solid var(--ink); border-radius:14px; padding:10px 14px;
+  }
+  .chip-preview::before{ content:""; position:absolute; left:18px; bottom:-9px; border-left:8px solid transparent; border-right:8px solid transparent; border-top:8px solid var(--ink); }
+  .chip-preview::after{ content:""; position:absolute; left:20px; bottom:-6px; border-left:6px solid transparent; border-right:6px solid transparent; border-top:6px solid var(--white); }
+
+  .info-box{
+    text-align:left; background:var(--gray-soft); border:2.5px dashed var(--gray);
+    border-radius:var(--r-md); padding:18px 20px; margin:0 0 34px;
+    font-size:13.5px; color:var(--ink); line-height:1.55;
+  }
+  .info-box strong{ color:var(--ink); }
+
+  .btn{
+    font-family:'Inter',sans-serif; font-weight:700; font-size:15px;
+    border-radius:999px; padding:17px 32px; cursor:pointer;
+    display:inline-flex; align-items:center; justify-content:center; gap:9px;
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+    border:none;
+  }
+  .btn:focus-visible{ outline:3px solid var(--gray); outline-offset:3px; }
+
+  .btn-primary{
+    background:var(--ink); color:var(--white);
+    border:3px solid var(--ink);
+    box-shadow:4px 5px 0 var(--gray);
+    width:100%; max-width:340px;
+  }
+  .btn-primary:hover{ transform:translate(-2px,-2px); box-shadow:6px 7px 0 var(--gray); }
+  .btn-primary:active{ transform:translate(1px,2px); box-shadow:2px 2px 0 var(--gray); }
+  .btn-primary:disabled{ background:var(--gray-soft); border-color:var(--gray-soft); color:var(--gray); box-shadow:none; cursor:not-allowed; transform:none; }
+
+  .btn-sm{
+    font-size:13px; padding:10px 18px; border-radius:999px;
+    background:var(--white); color:var(--ink);
+    border:2.5px solid var(--ink);
+    box-shadow:2.5px 3px 0 rgba(17,17,17,0.18);
+  }
+  .btn-sm:hover{ transform:translate(-1px,-1px); box-shadow:3.5px 4px 0 rgba(17,17,17,0.18); }
+  .btn-sm:active{ transform:translate(1px,1px); box-shadow:1px 1px 0 rgba(17,17,17,0.18); }
+  .btn-sm.recording{ background:var(--ink); color:var(--white); border-color:var(--ink); animation:pulseRec 1s ease-in-out infinite; }
+  @keyframes pulseRec{ 0%,100%{ box-shadow:2.5px 3px 0 rgba(17,17,17,0.18);} 50%{ box-shadow:2.5px 3px 0 rgba(17,17,17,0.18), 0 0 0 6px rgba(110,110,110,0.35);} }
+
+  .card{
+    background:var(--white); border:3px solid var(--ink); border-radius:var(--r-lg);
+    box-shadow:9px 10px 0 var(--gray-soft); padding:32px 30px; margin-bottom:20px;
+  }
+
+  .card-label{ font-family:'Inter',sans-serif; font-weight:800; font-size:14px; letter-spacing:0.04em; text-transform:uppercase; color:var(--ink); margin-bottom:8px; }
+  .card-sub{ font-size:14px; color:var(--gray); margin-bottom:14px; }
+
+  .group-tag{
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:'Inter',sans-serif; font-weight:800; font-size:11.5px; letter-spacing:0.06em; text-transform:uppercase;
+    background:var(--ink); color:var(--white); border-radius:999px; padding:6px 14px; margin-bottom:18px;
+  }
+
+  .photo-frame{
+    position:relative; width:100%; aspect-ratio:16/10; max-height:260px;
+    background:var(--gray-soft);
+    border:3px solid var(--ink); border-radius:var(--r-md);
+    overflow:hidden; display:flex; align-items:center; justify-content:center;
+    box-shadow:6px 7px 0 var(--gray-soft); margin-bottom:24px;
+  }
+  .photo-frame img{ width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity .35s ease; }
+  .img-loading{ position:absolute; font-family:'Inter',sans-serif; font-size:12.5px; font-weight:700; color:var(--gray); letter-spacing:0.03em; }
+
+  .listen-row{ display:flex; justify-content:center; margin-bottom:26px; }
+  .btn-listen{
+    background:var(--ink); color:var(--white); border:none; border-radius:999px;
+    font-family:'Inter',sans-serif; font-weight:700; font-size:13.5px;
+    padding:12px 22px; cursor:pointer; display:inline-flex; align-items:center; gap:8px;
+    box-shadow:3px 4px 0 var(--gray-soft); transition:transform .15s ease;
+  }
+  .btn-listen:hover{ transform:translate(-2px,-2px); }
+  .btn-listen:active{ transform:translate(1px,2px); }
+  .btn-listen svg{ width:16px; height:16px; }
+  .btn-listen.speaking{ animation:speakPulse .7s ease-in-out infinite; }
+  @keyframes speakPulse{ 0%,100%{ opacity:1;} 50%{ opacity:.6;} }
+  .btn-listen:disabled{ background:var(--gray-soft); color:var(--gray); box-shadow:none; cursor:not-allowed; transform:none; }
+
+  .sentence-block{ text-align:center; margin-bottom:28px; }
+  .sentence-text{ font-family:'Poppins',sans-serif; font-weight:700; font-size:18px; color:var(--ink); line-height:2.1; }
+
+  .dropzone{
+    display:inline-flex; align-items:center; justify-content:center;
+    min-width:120px; min-height:42px; vertical-align:middle;
+    margin:0 4px; padding:4px 14px;
+    border:2.5px dashed var(--gray); border-radius:999px;
+    background:var(--gray-soft);
+    font-family:'Inter',sans-serif; font-weight:800; font-size:13px;
+    letter-spacing:0.03em; text-transform:uppercase; color:var(--gray);
+    transition:border-color .15s ease, background .15s ease, transform .12s ease;
+  }
+  .dropzone.over{ border-color:var(--ink); background:var(--white); transform:scale(1.04); }
+  .dropzone.filled{
+    border-style:solid; border-color:var(--ink); background:var(--ink); color:var(--white);
+    font-family:'Poppins',sans-serif; font-weight:700; font-size:16px; text-transform:none; letter-spacing:0;
+  }
+  .dropzone.filled.wrong{ background:var(--white); color:var(--ink); text-decoration:line-through; }
+
+  .chip-tray-label{ font-family:'Inter',sans-serif; font-weight:800; font-size:11.5px; letter-spacing:0.08em; text-transform:uppercase; color:var(--gray); text-align:center; margin-bottom:12px; }
+  .chip-tray{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-bottom:8px; min-height:56px; }
+
+  .chip{
+    position:relative;
+    background:var(--white); color:var(--ink);
+    border:2.5px solid var(--ink); border-radius:999px;
+    padding:12px 22px;
+    font-family:'Poppins',sans-serif; font-weight:700; font-size:14.5px;
+    cursor:grab; touch-action:none; user-select:none; -webkit-user-select:none;
+    box-shadow:3px 4px 0 var(--gray-soft);
+    transition:box-shadow .12s ease, transform .12s ease, opacity .12s ease;
+  }
+  .chip:active{ cursor:grabbing; }
+  .chip.placed{ opacity:0; pointer-events:none; }
+  .chip.disabled{ opacity:0.35; pointer-events:none; box-shadow:none; }
+  .chip-ghost{
+    position:fixed; z-index:999; pointer-events:none;
+    background:var(--ink); color:var(--white);
+    border:2.5px solid var(--ink); border-radius:999px;
+    padding:12px 22px;
+    font-family:'Poppins',sans-serif; font-weight:700; font-size:14.5px;
+    box-shadow:5px 6px 0 rgba(17,17,17,0.25);
+    transform:translate(-50%,-50%) scale(1.05);
+  }
+
+  .options-hint{ text-align:center; font-size:12px; color:var(--gray); margin-top:4px; margin-bottom:6px; font-style:italic; }
+
+  .correct-reveal{ text-align:center; font-size:13.5px; color:var(--gray); margin-top:14px; }
+  .correct-reveal strong{ color:var(--ink); }
+
+  .feedback-toast{
+    display:none; align-items:center; gap:10px;
+    font-family:'Inter',sans-serif; font-weight:800; font-size:14px;
+    padding:13px 18px; border-radius:var(--r-md); margin:18px 0 0;
+    border:2.5px solid var(--ink);
+  }
+  .feedback-toast.show{ display:flex; animation:popIn .3s cubic-bezier(.34,1.56,.64,1); }
+  @keyframes popIn{ from{ opacity:0; transform:scale(.92) translateY(-4px);} to{ opacity:1; transform:scale(1) translateY(0);} }
+  .feedback-toast.correct{ background:var(--ink); color:var(--white); box-shadow:3px 4px 0 var(--gray-soft); }
+  .feedback-toast.incorrect{ background:var(--white); color:var(--ink); box-shadow:3px 4px 0 var(--gray-soft); border-color:var(--ink); }
+  .feedback-toast svg{ width:18px; height:18px; flex-shrink:0; }
+
+  .shake{ animation:shake .4s ease; }
+  @keyframes shake{
+    10%,90%{ transform:translateX(-2px); }
+    20%,80%{ transform:translateX(4px); }
+    30%,50%,70%{ transform:translateX(-7px); }
+    40%,60%{ transform:translateX(7px); }
+  }
+
+  .record-panel{ display:none; margin-top:20px; background:var(--gray-soft); border:2.5px dashed var(--gray); border-radius:var(--r-md); padding:18px 18px 16px; }
+  .record-panel.show{ display:block; animation:popIn .3s ease both; }
+  .record-title{ font-family:'Inter',sans-serif; font-weight:800; font-size:12.5px; letter-spacing:0.05em; text-transform:uppercase; color:var(--ink); margin-bottom:6px; display:flex; align-items:center; gap:6px; }
+  .record-desc{ font-size:13px; color:var(--gray); margin-bottom:14px; line-height:1.5; }
+  .record-controls{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+  .record-status{ font-size:12.5px; font-weight:700; color:var(--ink); }
+  .record-audio{ margin-top:12px; width:100%; }
+  .record-note{ font-size:12px; color:var(--gray); margin-top:10px; font-style:italic; }
+
+  .action-row{ display:flex; gap:14px; margin-top:22px; }
+  .action-row .btn{ flex:1; }
+
+  .final-card{ text-align:center; padding:48px 32px 40px; }
+  .trophy-wrap{
+    width:88px; height:88px; margin:0 auto 22px; background:var(--ink); border-radius:22px;
+    border:3px solid var(--ink); display:flex; align-items:center; justify-content:center;
+    box-shadow:4px 5px 0 var(--gray-soft); transform:rotate(-4deg);
+    animation:trophyPop .6s cubic-bezier(.34,1.56,.64,1) both;
+  }
+  @keyframes trophyPop{ 0%{ transform:scale(0) rotate(-24deg);} 100%{ transform:scale(1) rotate(-4deg);} }
+  .trophy-wrap svg{ width:42px; height:42px; }
+
+  h2.final-title{ font-family:'Poppins',sans-serif; font-weight:900; text-transform:uppercase; font-size:28px; margin-bottom:8px; }
+  p.final-sub{ color:var(--gray); font-size:14.5px; margin-bottom:28px; }
+
+  .score-display{ display:inline-flex; align-items:baseline; gap:6px; font-family:'Poppins',sans-serif; font-weight:900; font-size:50px; color:var(--ink); margin-bottom:4px; }
+  .score-display span.of{ font-size:22px; color:var(--gray); font-weight:700; }
+  .score-label{ font-family:'Inter',sans-serif; font-weight:800; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:var(--gray); margin-bottom:28px; }
+
+  .progress-track{ height:12px; background:var(--gray-soft); border:2px solid var(--ink); border-radius:99px; overflow:hidden; margin-bottom:32px; }
+  .progress-fill{ height:100%; width:0%; background:var(--ink); transition:width 1s cubic-bezier(.22,1,.36,1); }
+
+  .final-btn-row{ display:flex; flex-direction:column; gap:12px; align-items:center; }
+  .final-btn-row .btn{ width:100%; max-width:340px; }
+
+  @media (max-width:480px){
+    .card{ padding:24px 18px; }
+    .final-card{ padding:40px 20px 34px; }
+    .welcome{ padding:26px 10px 6px; }
+    .action-row{ flex-direction:column; }
+    .sentence-text{ font-size:16px; }
+    .dropzone{ min-width:100px; }
+    .chip{ padding:10px 16px; font-size:13.5px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-blob b1" aria-hidden="true"></div>
+<div class="bg-blob b2" aria-hidden="true"></div>
+
+<audio id="tts-audio" preload="none" style="display:none;"></audio>
+
+<div class="stage">
+
+  <div class="header-row">
+    <div class="m1-badge">B1</div>
+    <div class="m1-label">INTERMEDIATE <span>B1</span></div>
+  </div>
+
+  <!-- ============ WELCOME SCREEN ============ -->
+  <section class="screen active" id="screen-welcome">
+    <div class="welcome">
+      <div class="eyebrow-pill">✦ Interactive Activity</div>
+      <h1 class="title">Possessive Adjectives &amp; Pronouns</h1>
+      <p class="lead">Drag the correct word into the sentence.</p>
+      <p class="sub-lead">Each group of sentences uses one set of words: a subject pronoun, a possessive adjective, and a possessive pronoun.</p>
+
+      <div class="preview-row" aria-hidden="true">
+        <div class="chip-preview">I</div>
+        <div class="chip-preview">MY</div>
+        <div class="chip-preview">MINE</div>
+        <div class="chip-preview">SHE</div>
+        <div class="chip-preview">HER</div>
+        <div class="chip-preview">HERS</div>
+        <div class="chip-preview">WE</div>
+        <div class="chip-preview">US</div>
+        <div class="chip-preview">OUR</div>
+        <div class="chip-preview">OURS</div>
+      </div>
+
+      <div class="info-box">
+        <strong>Instructions:</strong> in each group of sentences you will see three kinds of words that go together: a <strong>subject pronoun</strong> (I, she, we — who does the action), a <strong>possessive adjective</strong> (my, her, our — before a noun, like "my computer"), and a <strong>possessive pronoun</strong> (mine, hers, ours — used alone, without a noun, like "It's mine"). Look at the picture and read the sentence carefully to decide which word fits, then <strong>drag</strong> it into the empty box (or tap it, if that's easier). Tap <strong>"Listen"</strong> to hear the full sentence read aloud, and use the <strong>microphone</strong> button to practice saying it yourself.
+      </div>
+
+      <button class="btn btn-primary" id="btn-start">
+        START ACTIVITY
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ ACTIVITY SCREEN ============ -->
+  <section class="screen" id="screen-activity">
+    <div class="meta-row">
+      <div class="q-count" id="q-count">QUESTION 1 OF 10</div>
+      <div class="dots" id="dots"></div>
+      <div class="score-badge">SCORE: <span id="score-value">0</span>/10</div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Drag and drop</div>
+      <div class="card-sub">Look at the picture and drag the correct word into the box.</div>
+      <div class="group-tag" id="group-tag">GROUP 1 · I / MY / MINE</div>
+
+      <div class="photo-frame" id="photo-frame">
+        <div class="img-loading">Loading photo…</div>
+        <img id="photo-img" alt="A real photograph related to the sentence.">
+      </div>
+
+      <div class="listen-row">
+        <button class="btn-listen" id="btn-listen" type="button" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+          <span id="listen-label">ANSWER FIRST</span>
+        </button>
+      </div>
+
+      <div class="sentence-block">
+        <div class="sentence-text" id="sentence-text"></div>
+      </div>
+
+      <div class="chip-tray-label">Drag one option into the box above</div>
+      <div class="chip-tray" id="chip-tray"></div>
+      <div class="options-hint">You can drag with your mouse or finger, or simply tap an option.</div>
+
+      <div class="correct-reveal" id="correct-reveal" style="display:none;"></div>
+
+      <div class="feedback-toast" id="feedback-toast"></div>
+
+      <div class="record-panel" id="record-panel">
+        <div class="record-title">🎤 Practice your pronunciation</div>
+        <div class="record-desc">The correct sentence was: <strong id="record-sentence">—</strong>. Record yourself saying it out loud, then listen back.</div>
+        <div class="record-controls">
+          <button class="btn-sm" id="btn-record" type="button">● Record my voice</button>
+          <span class="record-status" id="record-status"></span>
+        </div>
+        <audio class="record-audio" id="record-audio" controls style="display:none;"></audio>
+        <div class="record-note" id="record-note"></div>
+      </div>
+
+      <div class="action-row">
+        <button class="btn btn-primary" id="btn-next" style="display:none;">NEXT QUESTION
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL SCREEN ============ -->
+  <section class="screen" id="screen-final">
+    <div class="card final-card">
+      <div class="trophy-wrap">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 01-10 0V4z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M7 5H4a1 1 0 00-1 1v1a4 4 0 004 4M17 5h3a1 1 0 011 1v1a4 4 0 01-4 4" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h2 class="final-title">Well done!</h2>
+      <p class="final-sub">You completed the Possessive Adjectives &amp; Pronouns drag &amp; drop activity.</p>
+
+      <div class="score-display"><span id="final-score">0</span><span class="of">/ 10</span></div>
+      <div class="score-label">Your score</div>
+
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+
+      <div class="final-btn-row">
+        <button class="btn btn-primary" id="btn-retry">TRY AGAIN</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+
+  /* ================= CONTENT (faithfully recreated from the Liveworksheets
+     "Possessive adjectives & Possessive pronoun" drag-and-drop worksheet, id 1001904:
+     https://www.liveworksheets.com/worksheet/en/english-language/1001904
+     The worksheet is organized into 3 word-set groups, each with its own three or four
+     draggable words (Group 1: I / my / mine — Group 2: she / her / hers — Group 3:
+     we / us / our / ours), and 10 sentences total, all read directly from the worksheet's
+     own screenshots. This particular worksheet's drag-and-drop element type does not expose
+     its internal answer key through the site's JS state (confirmed by direct inspection —
+     unlike the site's Textfield-type worksheets, whose originalJSON answer array is
+     readable), so each correct answer below was determined by unambiguous English grammar
+     applied to the faithfully-extracted sentences and each group's own faithfully-extracted
+     word options — never invented. Each photo is a real, high-resolution photo chosen to
+     match its group's theme, each verified reachable via fetch(). ================= */
+
+  const QUESTIONS = [
+    // ---- Group 1: I / my / mine (a laptop, used at night) ----
+    { group:1, groupLabel:"GROUP 1 · I / MY / MINE",
+      before:"This is", after:"computer.", options:["my","mine","I"], correct:"my",
+      img:"https://images.unsplash.com/photo-1601523180855-5e6a74eb49f5?auto=format&fit=crop&w=1400&q=80", voice:'F' },
+    { group:1, groupLabel:"GROUP 1 · I / MY / MINE",
+      before:"You can use", after:"at night.", options:["mine","I","my"], correct:"mine",
+      img:"https://images.unsplash.com/photo-1601523180855-5e6a74eb49f5?auto=format&fit=crop&w=1400&q=80", voice:'F' },
+    { group:1, groupLabel:"GROUP 1 · I / MY / MINE",
+      before:"", after:"don't usually use it at night.", options:["I","my","mine"], correct:"I",
+      img:"https://images.unsplash.com/photo-1601523180855-5e6a74eb49f5?auto=format&fit=crop&w=1400&q=80", voice:'F' },
+
+    // ---- Group 2: she / her / hers (a woman and her crisps) ----
+    { group:2, groupLabel:"GROUP 2 · SHE / HER / HERS",
+      before:"Besides that,", after:"also likes eating.", options:["she","her","hers"], correct:"she",
+      img:"https://images.unsplash.com/photo-1789399097974-2162ea7cc510?auto=format&fit=crop&w=1400&q=80", voice:'F' },
+    { group:2, groupLabel:"GROUP 2 · SHE / HER / HERS",
+      before:"Crisps are", after:"favourite food.", options:["her","she","hers"], correct:"her",
+      img:"https://images.unsplash.com/photo-1789399097974-2162ea7cc510?auto=format&fit=crop&w=1400&q=80", voice:'F' },
+    { group:2, groupLabel:"GROUP 2 · SHE / HER / HERS",
+      before:"Those packets of crisps are", after:".", options:["hers","her","she"], correct:"hers",
+      img:"https://images.unsplash.com/photo-1789399097974-2162ea7cc510?auto=format&fit=crop&w=1400&q=80", voice:'F' },
+
+    // ---- Group 3: we / us / our / ours (bicycles outside Grandma's house) ----
+    { group:3, groupLabel:"GROUP 3 · WE / US / OUR / OURS",
+      before:"Every Sunday,", after:"get up early.", options:["we","us","our","ours"], correct:"we",
+      img:"https://images.unsplash.com/photo-1778175164611-5a8b1085bf94?auto=format&fit=crop&w=1400&q=80", voice:'F' },
+    { group:3, groupLabel:"GROUP 3 · WE / US / OUR / OURS",
+      before:"Mum takes", after:"to Grandma's house.", options:["us","we","ours","our"], correct:"us",
+      img:"https://images.unsplash.com/photo-1778175164611-5a8b1085bf94?auto=format&fit=crop&w=1400&q=80", voice:'F' },
+    { group:3, groupLabel:"GROUP 3 · WE / US / OUR / OURS",
+      before:"The three bicycles outside her house are", after:".", options:["ours","our","we","us"], correct:"ours",
+      img:"https://images.unsplash.com/photo-1778175164611-5a8b1085bf94?auto=format&fit=crop&w=1400&q=80", voice:'F' },
+    { group:3, groupLabel:"GROUP 3 · WE / US / OUR / OURS",
+      before:"They are gifts from", after:"uncle.", options:["our","ours","us","we"], correct:"our",
+      img:"https://images.unsplash.com/photo-1778175164611-5a8b1085bf94?auto=format&fit=crop&w=1400&q=80", voice:'F' }
+  ];
+
+  function fullSentence(q){
+    return (q.before ? q.before + ' ' : '') + q.correct + ' ' + q.after;
+  }
+
+  let current = 0;
+  let score = 0;
+  let locked = false;
+  let mediaRecorder = null;
+  let recordedChunks = [];
+  let isRecording = false;
+  let micStream = null;
+
+  const screens = {
+    welcome: document.getElementById('screen-welcome'),
+    activity: document.getElementById('screen-activity'),
+    final: document.getElementById('screen-final')
+  };
+
+  const qCount = document.getElementById('q-count');
+  const scoreValue = document.getElementById('score-value');
+  const dotsEl = document.getElementById('dots');
+  const groupTag = document.getElementById('group-tag');
+  const photoFrame = document.getElementById('photo-frame');
+  const photoImg = document.getElementById('photo-img');
+  const sentenceText = document.getElementById('sentence-text');
+  const chipTray = document.getElementById('chip-tray');
+  const correctReveal = document.getElementById('correct-reveal');
+  const feedbackToast = document.getElementById('feedback-toast');
+  const btnListen = document.getElementById('btn-listen');
+  const listenLabel = document.getElementById('listen-label');
+  const btnNext = document.getElementById('btn-next');
+  const btnStart = document.getElementById('btn-start');
+  const btnRetry = document.getElementById('btn-retry');
+  const recordPanel = document.getElementById('record-panel');
+  const recordSentence = document.getElementById('record-sentence');
+  const btnRecord = document.getElementById('btn-record');
+  const recordStatus = document.getElementById('record-status');
+  const recordAudio = document.getElementById('record-audio');
+  const recordNote = document.getElementById('record-note');
+
+  /* ---------------- Natural human-voice pronunciation, matched by gender ---------------- */
+  const AZURE_SPEECH_KEY = ''; // <-- paste a free Azure Speech key here to switch on real neural audio
+  const AZURE_SPEECH_REGION = 'eastus'; // <-- match the region of your Azure Speech resource
+  const AZURE_VOICE = { F: 'en-US-JennyNeural', M: 'en-US-GuyNeural' };
+
+  const ttsAudio = document.getElementById('tts-audio');
+
+  let bestVoiceF = null, bestVoiceM = null;
+  function pickBestVoice(gender){
+    if(!('speechSynthesis' in window)) return null;
+    const voices = window.speechSynthesis.getVoices();
+    if(!voices.length) return null;
+
+    /* Strict American-accent selection: only en-US (never en-GB/en-AU/en-IN/etc.),
+       and only names that are explicitly US voices — no "Google UK English",
+       no generic "Online (Natural)" unless it is tagged en-US. */
+    const isUS = v => v.lang && v.lang.toLowerCase() === 'en-us';
+    const usVoices = voices.filter(isUS);
+    const enVoices = voices.filter(v => v.lang && v.lang.toLowerCase().startsWith('en'));
+    const pool = usVoices.length ? usVoices : (enVoices.length ? enVoices : voices);
+    const usPool = usVoices.length ? usVoices : pool;
+
+    const femaleUSNames = [/Jenny/i, /Aria/i, /Samantha/i, /Salli/i, /Joanna/i, /Ivy/i, /Kendra/i, /Kimberly/i, /Google US English/i, /Zira/i];
+    const maleUSNames   = [/Guy/i, /Christopher/i, /Eric/i, /Davis/i, /Matthew/i, /Justin/i, /David/i, /Mark/i];
+    const namePatterns = gender === 'F' ? femaleUSNames : maleUSNames;
+
+    /* 1) A named US voice, network/neural quality preferred over local */
+    for(const rx of namePatterns){
+      const v = usPool.find(v => rx.test(v.name) && !v.localService);
+      if(v) return v;
+    }
+    for(const rx of namePatterns){
+      const v = usPool.find(v => rx.test(v.name));
+      if(v) return v;
+    }
+
+    /* 2) Any en-US "Natural"/"Neural" network voice, gender-matched by name hint */
+    const genderHint = gender === 'F' ? /female/i : /male/i;
+    const naturalUS = usPool.find(v => /Online \(Natural\)|Neural/i.test(v.name) && !v.localService && genderHint.test(v.name));
+    if(naturalUS) return naturalUS;
+    const anyNaturalUS = usPool.find(v => /Online \(Natural\)|Neural/i.test(v.name) && !v.localService);
+    if(anyNaturalUS) return anyNaturalUS;
+
+    /* 3) Any en-US network voice at all */
+    const anyUSNetwork = usPool.find(v => !v.localService);
+    if(anyUSNetwork) return anyUSNetwork;
+
+    /* 4) Any en-US voice (even local/offline) */
+    if(usPool.length) return usPool[0];
+
+    /* 5) Last resort: broader English pool (still avoids non-English voices) */
+    return pool[0] || voices[0];
+  }
+  function refreshVoices(){
+    bestVoiceF = pickBestVoice('F');
+    bestVoiceM = pickBestVoice('M');
+  }
+  if('speechSynthesis' in window){
+    refreshVoices();
+    window.speechSynthesis.onvoiceschanged = refreshVoices;
+    setTimeout(refreshVoices, 300);
+    setTimeout(refreshVoices, 1200);
+  }
+
+  function browserSpeak(text, gender, onEnd){
+    if(!('speechSynthesis' in window)){
+      if(onEnd) onEnd();
+      return;
+    }
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = 'en-US';
+    const voice = gender === 'F' ? bestVoiceF : bestVoiceM;
+    if(voice) utter.voice = voice;
+    utter.rate = 0.95;
+    utter.pitch = gender === 'F' ? 1.04 : 0.96;
+    utter.volume = 1;
+    utter.onend = function(){ if(onEnd) onEnd(); };
+    utter.onerror = function(){ if(onEnd) onEnd(); };
+    window.speechSynthesis.speak(utter);
+  }
+
+  function azureSpeak(text, gender, onEnd){
+    let finished = false;
+    const finish = function(){ if(!finished){ finished = true; if(onEnd) onEnd(); } };
+
+    if(!AZURE_SPEECH_KEY){
+      browserSpeak(text, gender, finish);
+      return;
+    }
+
+    const voiceName = AZURE_VOICE[gender] || AZURE_VOICE.F;
+    const endpoint = `https://${AZURE_SPEECH_REGION}.tts.speech.microsoft.com/cognitiveservices/v1`;
+    const ssml = `<speak version='1.0' xml:lang='en-US'><voice xml:lang='en-US' xml:gender='${gender === 'F' ? 'Female' : 'Male'}' name='${voiceName}'>${text.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</voice></speak>`;
+
+    fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Ocp-Apim-Subscription-Key': AZURE_SPEECH_KEY,
+        'Content-Type': 'application/ssml+xml',
+        'X-Microsoft-OutputFormat': 'audio-24khz-48kbitrate-mono-mp3'
+      },
+      body: ssml
+    })
+    .then(res => { if(!res.ok) throw new Error('azure-tts-failed'); return res.blob(); })
+    .then(blob => {
+      const url = URL.createObjectURL(blob);
+      ttsAudio.onended = function(){ URL.revokeObjectURL(url); finish(); };
+      ttsAudio.onerror = function(){ URL.revokeObjectURL(url); browserSpeak(text, gender, finish); };
+      ttsAudio.src = url;
+      const p = ttsAudio.play();
+      if(p && p.catch) p.catch(()=> browserSpeak(text, gender, finish));
+    })
+    .catch(()=> browserSpeak(text, gender, finish));
+  }
+
+  function speakPhrase(text, gender, onEnd){
+    azureSpeak(text, gender, onEnd);
+  }
+
+  btnListen.addEventListener('click', function(){
+    if(btnListen.disabled) return;
+    const q = QUESTIONS[current];
+    btnListen.classList.add('speaking');
+    listenLabel.textContent = 'PLAYING…';
+    speakPhrase(fullSentence(q), q.voice, function(){
+      btnListen.classList.remove('speaking');
+      listenLabel.textContent = 'LISTEN';
+    });
+  });
+
+  /* ---------------- Voice recording (student practice) ---------------- */
+  function stopMicStream(){
+    if(micStream){
+      micStream.getTracks().forEach(t => t.stop());
+      micStream = null;
+    }
+  }
+
+  async function startRecording(){
+    if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || typeof MediaRecorder === 'undefined'){
+      recordNote.textContent = 'Your browser does not allow audio recording here. You can still practice out loud.';
+      return;
+    }
+    try{
+      micStream = await navigator.mediaDevices.getUserMedia({ audio:true });
+      recordedChunks = [];
+      mediaRecorder = new MediaRecorder(micStream);
+      mediaRecorder.ondataavailable = function(e){ if(e.data && e.data.size > 0) recordedChunks.push(e.data); };
+      mediaRecorder.onstop = function(){
+        const blob = new Blob(recordedChunks, { type:'audio/webm' });
+        const url = URL.createObjectURL(blob);
+        recordAudio.src = url;
+        recordAudio.style.display = 'block';
+        recordStatus.textContent = '✓ Recording ready. Press play to listen to yourself.';
+        stopMicStream();
+      };
+      mediaRecorder.start();
+      isRecording = true;
+      btnRecord.textContent = '■ Stop recording';
+      btnRecord.classList.add('recording');
+      recordStatus.textContent = 'Recording… speak now.';
+      recordNote.textContent = '';
+    }catch(err){
+      recordNote.textContent = 'We could not access your microphone. Please check your browser permissions and try again.';
+    }
+  }
+
+  function stopRecording(){
+    if(mediaRecorder && isRecording){
+      mediaRecorder.stop();
+    }
+    isRecording = false;
+    btnRecord.textContent = '● Record my voice';
+    btnRecord.classList.remove('recording');
+  }
+
+  btnRecord.addEventListener('click', function(){
+    if(isRecording){ stopRecording(); }
+    else { startRecording(); }
+  });
+
+  function resetRecordPanel(){
+    recordPanel.classList.remove('show');
+    recordAudio.style.display = 'none';
+    recordAudio.removeAttribute('src');
+    recordStatus.textContent = '';
+    recordNote.textContent = '';
+    btnRecord.textContent = '● Record my voice';
+    btnRecord.classList.remove('recording');
+    isRecording = false;
+    if(mediaRecorder && mediaRecorder.state !== 'inactive'){
+      try{ mediaRecorder.stop(); }catch(e){}
+    }
+    stopMicStream();
+  }
+
+  /* ---------------- Photo loading ---------------- */
+  function loadPhoto(q){
+    const loading = photoFrame.querySelector('.img-loading');
+    loading.style.display = 'block';
+    loading.textContent = 'Loading photo…';
+    photoImg.style.opacity = '0';
+    photoImg.onload = function(){ loading.style.display = 'none'; photoImg.style.opacity = '1'; };
+    photoImg.onerror = function(){ loading.textContent = 'Photo could not be loaded.'; };
+    photoImg.src = q.img;
+  }
+
+  /* ---------------- Quiz logic ---------------- */
+  function buildDots(){
+    dotsEl.innerHTML = '';
+    QUESTIONS.forEach(()=>{
+      const d = document.createElement('div');
+      d.className = 'dot';
+      dotsEl.appendChild(d);
+    });
+  }
+
+  function refreshDots(){
+    [...dotsEl.children].forEach((d,i)=>{
+      d.classList.remove('done','current');
+      if(i < current) d.classList.add('done');
+      else if(i === current) d.classList.add('current');
+    });
+  }
+
+  let dropzoneEl = null;
+
+  function renderQuestion(){
+    locked = false;
+    const q = QUESTIONS[current];
+
+    qCount.textContent = `QUESTION ${current+1} OF ${QUESTIONS.length}`;
+    refreshDots();
+    groupTag.textContent = q.groupLabel;
+
+    feedbackToast.className = 'feedback-toast';
+    feedbackToast.innerHTML = '';
+    correctReveal.style.display = 'none';
+    btnNext.style.display = 'none';
+    resetRecordPanel();
+
+    /* Audio stays locked until the student drops an answer for this question */
+    window.speechSynthesis && window.speechSynthesis.cancel();
+    btnListen.disabled = true;
+    btnListen.classList.remove('speaking');
+    listenLabel.textContent = 'ANSWER FIRST';
+
+    loadPhoto(q);
+
+    sentenceText.innerHTML = (q.before ? q.before + ' ' : '') + '<span class="dropzone" id="dropzone">drop here</span> ' + q.after;
+    dropzoneEl = document.getElementById('dropzone');
+
+    renderChips();
+  }
+
+  function renderChips(){
+    chipTray.innerHTML = '';
+    const q = QUESTIONS[current];
+    q.options.forEach((word)=>{
+      const chip = document.createElement('div');
+      chip.className = 'chip';
+      chip.dataset.value = word;
+      chip.textContent = word;
+      attachDragHandlers(chip);
+      chipTray.appendChild(chip);
+    });
+  }
+
+  /* ---------------- Drag & drop (pointer events: works for mouse, touch and pen; a
+     plain tap with no movement also places the chip, as an accessible fallback) ---------------- */
+  function attachDragHandlers(chip){
+    let startX = 0, startY = 0, dragging = false, ghost = null, pointerId = null;
+    const DRAG_THRESHOLD = 6;
+
+    function onPointerMove(e){
+      if(e.pointerId !== pointerId) return;
+      const dx = e.clientX - startX, dy = e.clientY - startY;
+      if(!dragging && Math.hypot(dx,dy) > DRAG_THRESHOLD){
+        dragging = true;
+        chip.classList.add('placed');
+        ghost = document.createElement('div');
+        ghost.className = 'chip-ghost';
+        ghost.textContent = chip.dataset.value;
+        document.body.appendChild(ghost);
+      }
+      if(dragging && ghost){
+        ghost.style.left = e.clientX + 'px';
+        ghost.style.top = e.clientY + 'px';
+        if(dropzoneEl){
+          const r = dropzoneEl.getBoundingClientRect();
+          const over = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+          dropzoneEl.classList.toggle('over', over && !dropzoneEl.classList.contains('filled'));
+        }
+      }
+    }
+
+    function cleanup(){
+      if(ghost){ ghost.remove(); ghost = null; }
+      if(dropzoneEl) dropzoneEl.classList.remove('over');
+      chip.classList.remove('placed');
+      window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('pointerup', onPointerUp);
+      window.removeEventListener('pointercancel', onPointerUp);
+    }
+
+    function onPointerUp(e){
+      if(e.pointerId !== pointerId) return;
+      if(locked){ cleanup(); return; }
+      if(!dragging){
+        // simple tap / click on the chip: place it directly
+        cleanup();
+        placeAnswer(chip.dataset.value, chip);
+        return;
+      }
+      let dropped = false;
+      if(dropzoneEl && !dropzoneEl.classList.contains('filled')){
+        const r = dropzoneEl.getBoundingClientRect();
+        if(e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom){
+          dropped = true;
+        }
+      }
+      cleanup();
+      if(dropped){
+        placeAnswer(chip.dataset.value, chip);
+      }
+    }
+
+    chip.addEventListener('pointerdown', function(e){
+      if(locked || chip.classList.contains('disabled')) return;
+      startX = e.clientX; startY = e.clientY; dragging = false; pointerId = e.pointerId;
+      window.addEventListener('pointermove', onPointerMove);
+      window.addEventListener('pointerup', onPointerUp);
+      window.addEventListener('pointercancel', onPointerUp);
+    });
+  }
+
+  function showFeedback(isCorrect){
+    feedbackToast.className = 'feedback-toast show ' + (isCorrect ? 'correct' : 'incorrect');
+    if(isCorrect){
+      feedbackToast.innerHTML = `
+        <svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Correct! Well done.`;
+    } else {
+      feedbackToast.innerHTML = `
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 9v4M12 16.5h.01M12 3l9 16H3L12 3z" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Not quite — the correct answer is shown below.`;
+      photoFrame.classList.add('shake');
+      setTimeout(()=>photoFrame.classList.remove('shake'), 400);
+    }
+  }
+
+  function placeAnswer(word, chipEl){
+    if(locked) return;
+    locked = true;
+    const q = QUESTIONS[current];
+    const isCorrect = word === q.correct;
+
+    dropzoneEl.textContent = word;
+    dropzoneEl.classList.add('filled');
+    if(!isCorrect) dropzoneEl.classList.add('wrong');
+
+    [...chipTray.children].forEach(c => c.classList.add('disabled'));
+    if(chipEl) chipEl.classList.add('placed');
+
+    if(!isCorrect){
+      correctReveal.style.display = 'block';
+      correctReveal.innerHTML = 'Correct answer: <strong>' + q.correct + '</strong>';
+    }
+
+    showFeedback(isCorrect);
+
+    if(isCorrect){
+      score++;
+      scoreValue.textContent = score;
+    }
+    dotsEl.children[current].classList.add('done');
+
+    /* The student just answered: unlock the Listen button and immediately
+       play the audio for the correct sentence, matching the gender of the
+       person/subject shown in the photo. */
+    btnListen.disabled = false;
+    listenLabel.textContent = 'LISTEN';
+    btnListen.classList.add('speaking');
+    speakPhrase(fullSentence(q), q.voice, function(){
+      btnListen.classList.remove('speaking');
+    });
+
+    recordSentence.textContent = fullSentence(q);
+    recordPanel.classList.add('show');
+
+    btnNext.style.display = 'inline-flex';
+    btnNext.textContent = (current === QUESTIONS.length - 1) ? 'SEE RESULTS' : 'NEXT QUESTION';
+  }
+
+  btnNext.addEventListener('click', function(){
+    current++;
+    if(current < QUESTIONS.length){
+      renderQuestion();
+    } else {
+      showFinal();
+    }
+  });
+
+  btnStart.addEventListener('click', ()=>{
+    screens.welcome.classList.remove('active');
+    screens.activity.classList.add('active');
+    buildDots();
+    renderQuestion();
+  });
+
+  function showFinal(){
+    screens.activity.classList.remove('active');
+    screens.final.classList.add('active');
+    document.getElementById('final-score').textContent = score;
+    const pct = Math.round((score / QUESTIONS.length) * 100);
+    setTimeout(()=>{
+      document.getElementById('progress-fill').style.width = pct + '%';
+    }, 150);
+  }
+
+  btnRetry.addEventListener('click', ()=>{
+    current = 0;
+    score = 0;
+    scoreValue.textContent = 0;
+    screens.final.classList.remove('active');
+    screens.activity.classList.add('active');
+    buildDots();
+    renderQuestion();
+  });
+
+})();
+</script>
+
+</body>
+</html>
